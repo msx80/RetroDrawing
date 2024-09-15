@@ -1,0 +1,49 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      with:
+        cmdline-tools-version: 8512546
+    - name: Install packages        
+      run: |
+        sdkmanager "build-tools;33.0.2" "platforms;android-26"        
+    - name: Build app
+      run: |
+        cd retrodrawing
+        mvn --batch-mode clean install package
+    - name: Read version
+      run: |
+        cd retrodrawing
+        echo "GITHUB_DDVER=$(mvn -q org.apache.maven.plugins:maven-help-plugin:3.1.1:evaluate -Dexpression=project.version -DforceStdout)" >> $GITHUB_ENV
+    - name: Build android
+      run: |
+        cd android-mvn
+        mvn --batch-mode -Dcartridge.artifactId=retrodrawing -Dcartridge.groupId=com.github.msx80.omicron -Dcartridge.version=$GITHUB_DDVER clean install android:apk
+    - name: Deploy Apk
+      uses: actions/upload-artifact@v4
+      with:
+        name: 'retrodrawing.apk'
+        path: android-mvn/target/retrodrawing.apk
+    - name: Deploy cartridge
+      uses: actions/upload-artifact@v4
+      with:
+        name: 'retrodrawing.omicron'
+        path: retrodrawing/retrodrawing.omicron
