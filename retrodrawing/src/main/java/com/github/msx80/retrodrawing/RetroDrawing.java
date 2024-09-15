@@ -33,7 +33,7 @@ public class RetroDrawing implements Game, Ctx {
 	
 	private Sys sys;
 	int surface = 0;
-	int cur = 5;
+	int cur = 4;
 	Window w = null;
 	Tool tool = null;
 	
@@ -50,7 +50,7 @@ public class RetroDrawing implements Game, Ctx {
         surface = sys.newSurface(SURFWIDTH, HEIGHT);
         sys.fill(surface, 0,0,SURFWIDTH, HEIGHT, Palette.P[0]);
         
-        tool = new SmallPen() ;
+        tool = new MediumPen() ;
         
         td = new TextDrawerFixed(sys, 1, 6, 6, 6);
 		
