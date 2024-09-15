@@ -42,6 +42,7 @@ public class RetroDrawing implements Game, Ctx {
 	TextDrawer td;
 	
 	boolean cooldownMouse = false;
+	boolean showCursor;
 	
 	
     public void init(final Sys sys) 
@@ -53,6 +54,17 @@ public class RetroDrawing implements Game, Ctx {
         tool = new MediumPen() ;
         
         td = new TextDrawerFixed(sys, 1, 6, 6, 6);
+        
+        try
+        {
+	        String platform = (String) sys.hardware("com.github.msx80.omicron.plugins.builtin.PlatformPlugin", "PLATFORM", "");
+	        sys.trace("Platform: "+platform);
+	        showCursor = !platform.equals("ANDROID");
+        }
+        catch (Exception e) {
+			sys.trace("Error getting platform: "+e.getMessage());
+			showCursor = true;
+		}
 		
     }
 
@@ -88,7 +100,7 @@ public class RetroDrawing implements Game, Ctx {
     	sys.color(Colors.BLACK);
     	
     	// cursor
-    	if(false)
+    	if(showCursor)
     	{
 	    	for (Pointer p : sys.pointers()) {
 	    		sys.fill(0,p.x(), p.y(), 3,3, Colors.RED);
