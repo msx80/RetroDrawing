@@ -1,5 +1,7 @@
 ![Build](https://github.com/msx80/RetroDrawing/workflows/Build/badge.svg)
 [![Contributors](https://img.shields.io/github/contributors/msx80/retrodrawing.svg)](https://github.com/msx80/retrodrawing/graphs/contributors)
+![GitHub Release](https://img.shields.io/github/v/release/msx80/RetroDrawing)
+
 
 # RetroDrawing
 
