@@ -1,7 +1,9 @@
 ![Build](https://github.com/msx80/RetroDrawing/workflows/Build/badge.svg)
 [![Contributors](https://img.shields.io/github/contributors/msx80/retrodrawing.svg)](https://github.com/msx80/retrodrawing/graphs/contributors)
 ![GitHub Release](https://img.shields.io/github/v/release/msx80/RetroDrawing)
-
+![F-Droid Version](https://img.shields.io/f-droid/v/com.github.msx80.retrodrawing)
+![GitHub Discussions](https://img.shields.io/github/discussions/msx80/RetroDrawing)
+[![Powered by Omicron](https://img.shields.io/badge/Powered_by-Omicron-Green)](https://github.com/msx80/Omicron)
 
 # RetroDrawing
 
