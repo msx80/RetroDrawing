@@ -1,0 +1,1 @@
+A simple drawing app with big pixels and fixed palette.

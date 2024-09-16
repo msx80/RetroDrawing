@@ -1,0 +1,1 @@
+A drawing app with low resolution and a fixed 32 color palette. Has various tool: small, medium and large pen, fill bucket, color picker, full undo support etc.
