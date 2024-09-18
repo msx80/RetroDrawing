@@ -37,11 +37,18 @@ jobs:
       run: |
         cd android-mvn
         mvn --batch-mode -Dcartridge.artifactId=retrodrawing -Dcartridge.groupId=com.github.msx80.omicron -Dcartridge.version=$GITHUB_DDVER clean install android:apk
-    - name: Deploy Apk
-      uses: actions/upload-artifact@v4
+    - uses: r0adkll/sign-android-release@v1
+      name: Sign app APK
+      id: sign_app
       with:
-        name: 'retrodrawing.apk'
-        path: android-mvn/target/retrodrawing.apk
+        releaseDirectory: android-mvn/target/
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.SIGNING_ALIAS }}
+        keyStorePassword: ${{ secrets.SIGNING_PASSWORD }}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Signed app bundle
+        path: ${{steps.sign_app.outputs.signedReleaseFile}}        
     - name: Deploy cartridge
       uses: actions/upload-artifact@v4
       with:
