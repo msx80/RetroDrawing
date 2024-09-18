@@ -36,7 +36,7 @@ jobs:
     - name: Build android
       run: |
         cd android-mvn
-        mvn --batch-mode -Dcartridge.artifactId=retrodrawing -Dcartridge.groupId=com.github.msx80.omicron -Dcartridge.version=$GITHUB_DDVER clean install android:apk
+        mvn --batch-mode -Dcartridge.artifactId=retrodrawing -Dcartridge.groupId=com.github.msx80.omicron -Dcartridge.version=$GITHUB_DDVER clean package
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
       id: sign_app
