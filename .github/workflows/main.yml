@@ -47,10 +47,14 @@ jobs:
         keyStorePassword: ${{ secrets.SIGNING_PASSWORD }}
       env:
         BUILD_TOOLS_VERSION: "33.0.2"
+    - name: Rename apk
+      run: |
+        rm -vf android-mvn/target/retrodrawing.apk
+        mv -v ${{steps.sign_app.outputs.signedReleaseFile}} android-mvn/target/retrodrawing.apk
     - uses: actions/upload-artifact@v4
       with:
         name: retrodrawing.apk
-        path: ${{steps.sign_app.outputs.signedReleaseFile}}        
+        path: android-mvn/target/retrodrawing.apk 
     - name: Deploy cartridge
       uses: actions/upload-artifact@v4
       with:
