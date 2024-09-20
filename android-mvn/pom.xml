@@ -271,18 +271,18 @@
             <phase>package</phase>
             <goals>
               <goal>apk</goal>
-			  <!--<goal>zipalign</goal>-->
+			  <goal>zipalign</goal>
             </goals>
         </execution>
         </executions>
 		<configuration>
-		<!--<zipalignSkip>false</zipalignSkip>
+		<zipalignSkip>false</zipalignSkip>
 		<zipalign>
 			<skip>false</skip>
 			<verbose>true</verbose>
 			<inputApk>${project.build.directory}/${cartridge.artifactId}.apk</inputApk>
 			<outputApk>${project.build.directory}/${cartridge.artifactId}.apk</outputApk>
-		</zipalign>-->
+		</zipalign>
 		  <!-- read natives from the folder we have unpacked them earlier -->
 		  <nativeLibrariesDirectory>${project.build.directory}/libgdxnatives/</nativeLibrariesDirectory>
           <sdk>
