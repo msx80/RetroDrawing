@@ -276,8 +276,8 @@
         </execution>
         </executions>
 		<configuration>
-		<zipalignSkip>false</zipalignSkip>
-		<!--<zipalign>
+		<!--<zipalignSkip>false</zipalignSkip>
+		<zipalign>
 			<skip>false</skip>
 			<verbose>true</verbose>
 			<inputApk>${project.build.directory}/${cartridge.artifactId}.apk</inputApk>
