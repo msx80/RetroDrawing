@@ -281,7 +281,7 @@
 		<zipalign>
 			<skip>false</skip>
 			<verbose>true</verbose>
-			<inputApk>${project.build.directory}/${cartridge.artifactId}.apk</inputApk>
+			<inputApk>${project.build.directory}/${cartridge.artifactId}-unaligned.apk</inputApk>
 			<outputApk>${project.build.directory}/${cartridge.artifactId}.apk</outputApk>
 		</zipalign>
 		  <!-- read natives from the folder we have unpacked them earlier -->
@@ -304,7 +304,7 @@
 		
       </plugin>
     </plugins>
-	<finalName>${cartridge.artifactId}</finalName>
+	<finalName>${cartridge.artifactId}-unaligned</finalName>
   </build>
 
 </project>
