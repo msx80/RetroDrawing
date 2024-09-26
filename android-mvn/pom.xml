@@ -16,7 +16,7 @@
 	<cartridge.version>0.0.3</cartridge.version> -->
   <!-- ============================================================  -->
   
-    <it-plugin.version>4.6.3-SNAPSHOT</it-plugin.version>
+    <it-plugin.version>4.6.4-SNAPSHOT</it-plugin.version>
 	<maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>	
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -276,6 +276,7 @@
         </execution>
         </executions>
 		<configuration>
+		<fixedTimestamps>true</fixedTimestamps>
 		<zipalignSkip>false</zipalignSkip>
 		<zipalign>
 			<skip>false</skip>
