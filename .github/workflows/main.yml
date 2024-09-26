@@ -40,20 +40,19 @@ jobs:
     - name: Install packages        
       run: |
         sdkmanager "build-tools;34.0.0" "platforms;android-26"        
-    - uses: r0adkll/sign-android-release@v1.0.4
+    - uses: ilharp/sign-android-release@v1
       name: Sign app APK
       id: sign_app
       with:
-        releaseDirectory: android-mvn/target/
-        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-        alias: ${{ secrets.SIGNING_ALIAS }}
+        releaseDir: android-mvn/target/
+        signingKey: ${{ secrets.SIGNING_KEY }}
+        keyAlias: ${{ secrets.SIGNING_ALIAS }}
         keyStorePassword: ${{ secrets.SIGNING_PASSWORD }}
-      env:
-        BUILD_TOOLS_VERSION: "33.0.2"
+        buildToolsVersion: 33.0.2
     - name: Rename apk
       run: |
         rm -vf android-mvn/target/retrodrawing.apk
-        mv -v ${{steps.sign_app.outputs.signedReleaseFile}} android-mvn/target/retrodrawing.apk
+        mv -v ${{steps.sign_app.outputs.signedFile}} android-mvn/target/retrodrawing.apk
     - uses: actions/upload-artifact@v4
       with:
         name: retrodrawing.apk
