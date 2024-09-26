@@ -37,6 +37,10 @@ jobs:
       run: |
         cd android-mvn
         mvn --batch-mode -Dcartridge.artifactId=retrodrawing -Dcartridge.groupId=com.github.msx80.omicron -Dcartridge.version=$GITHUB_DDVER clean package
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Unsigned retrodrawing.apk
+        path: android-mvn/target/retrodrawing.apk 
     - name: Install packages        
       run: |
         sdkmanager "build-tools;34.0.0" "platforms;android-26"        
