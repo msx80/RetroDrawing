@@ -33,25 +33,28 @@ jobs:
         echo "GITHUB_DDVER=$(mvn -q org.apache.maven.plugins:maven-help-plugin:3.1.1:evaluate -Dexpression=project.version -DforceStdout)" >> $GITHUB_ENV
     - name: Build android
       run: |
-        cd androidWrapper
+        cd android-wrapper
         gradle --stacktrace -Pcartridge.artifactId=retrodrawing -Pcartridge.groupId=com.github.msx80.omicron -Pcartridge.version=$GITHUB_DDVER clean assembleRelease
     - uses: actions/upload-artifact@v4
       with:
         name: Unsigned retrodrawing.apk
-        path: androidWrapper/app/build/outputs/apk/release/app-release-unsigned.apk
+        path: android-wrapper/app/build/outputs/apk/release/app-release-unsigned.apk
     - uses: ilharp/sign-android-release@v1
       name: Sign app APK
       id: sign_app
       with:
-        releaseDir: androidWrapper/app/build/outputs/apk/release
+        releaseDir: android-wrapper/app/build/outputs/apk/release
         signingKey: ${{ secrets.SIGNING_KEY }}
         keyAlias: ${{ secrets.SIGNING_ALIAS }}
         keyStorePassword: ${{ secrets.SIGNING_PASSWORD }}
         buildToolsVersion: 33.0.2
+    - name: Rename apk
+      run: |
+        mv -v ${{steps.sign_app.outputs.signedFile}} retrodrawing.apk
     - uses: actions/upload-artifact@v4
       with:
         name: retrodrawing.apk
-        path: ${{steps.sign_app.outputs.signedFile}}
+        path: retrodrawing.apk
     - name: Build desktop
       run: |
         cd desktop-mvn

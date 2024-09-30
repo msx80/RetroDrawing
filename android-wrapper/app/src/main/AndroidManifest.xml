@@ -12,7 +12,7 @@
 		<meta-data android:name="omicronMain" android:value="${omicronMain}" />
         <activity
             android:name="com.github.msx80.omicron.AndroidLauncher"
-            android:exported="false"
+            android:exported="true"
 			android:screenOrientation="${orientation}"
             android:label="${appName}"
 			android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
