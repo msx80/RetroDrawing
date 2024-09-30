@@ -36,7 +36,7 @@ zipTree(configurations.toestract.singleFile).filter(e -> "omicron.properties".eq
 
 def iconFile
 def iconFiles = zipTree(configurations.toestract.singleFile).filter(e -> "omicronIcon.png".equals(e.getName())).getFiles()
-
+file("src/main/res/drawable").mkdirs()
 if(iconFiles.size() == 1)
 {
 	iconFile = iconFiles.iterator().next()
