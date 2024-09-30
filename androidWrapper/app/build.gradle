@@ -51,11 +51,10 @@ java.nio.file.Files.copy(iconFile.toPath(), file("src/main/res/drawable/omicroni
 android {
     namespace props.getProperty("omicron.pkg")
     compileSdk 34
-
+	compileSdkVersion 34
     defaultConfig {
         applicationId props.getProperty('omicron.pkg')
         minSdk 26
-		compileSdkVersion 26
         targetSdk 34
         versionCode minVersion
         versionName property('cartridge.version')
