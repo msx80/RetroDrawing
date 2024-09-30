@@ -39,26 +39,19 @@ jobs:
       with:
         name: Unsigned retrodrawing.apk
         path: androidWrapper/app/build/outputs/apk/release/app-release-unsigned.apk
-    - name: Install packages        
-      run: |
-        sdkmanager "build-tools;34.0.0" "platforms;android-26"        
     - uses: ilharp/sign-android-release@v1
       name: Sign app APK
       id: sign_app
       with:
-        releaseDir: androidWrapper/app/build/outputs/apk/release/app-release-unsigned.apk
+        releaseDir: androidWrapper/app/build/outputs/apk/release
         signingKey: ${{ secrets.SIGNING_KEY }}
         keyAlias: ${{ secrets.SIGNING_ALIAS }}
         keyStorePassword: ${{ secrets.SIGNING_PASSWORD }}
         buildToolsVersion: 33.0.2
-    - name: Rename apk
-      run: |
-        rm -vf android-mvn/target/retrodrawing.apk
-        mv -v ${{steps.sign_app.outputs.signedFile}} android-mvn/target/retrodrawing.apk
     - uses: actions/upload-artifact@v4
       with:
         name: retrodrawing.apk
-        path: android-mvn/target/retrodrawing.apk 
+        path: ${{steps.sign_app.outputs.signedFile}}
     - name: Build desktop
       run: |
         cd desktop-mvn
