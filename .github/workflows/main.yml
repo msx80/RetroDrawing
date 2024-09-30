@@ -20,8 +20,6 @@ jobs:
         distribution: 'temurin'
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
-      with:
-        cmdline-tools-version: 8512546
     - name: Install packages        
       run: |
         sdkmanager "build-tools;33.0.2" "platforms;android-26"        
@@ -35,12 +33,12 @@ jobs:
         echo "GITHUB_DDVER=$(mvn -q org.apache.maven.plugins:maven-help-plugin:3.1.1:evaluate -Dexpression=project.version -DforceStdout)" >> $GITHUB_ENV
     - name: Build android
       run: |
-        cd android-mvn
-        mvn --batch-mode -Dcartridge.artifactId=retrodrawing -Dcartridge.groupId=com.github.msx80.omicron -Dcartridge.version=$GITHUB_DDVER clean package
+        cd androidWrapper
+        gradle -Pcartridge.artifactId=retrodrawing -Pcartridge.groupId=com.github.msx80.omicron -Pcartridge.version=$GITHUB_DDVER clean assembleRelease
     - uses: actions/upload-artifact@v4
       with:
         name: Unsigned retrodrawing.apk
-        path: android-mvn/target/retrodrawing.apk 
+        path: androidWrapper/app/build/outputs/apk/release/app-release-unsigned.apk
     - name: Install packages        
       run: |
         sdkmanager "build-tools;34.0.0" "platforms;android-26"        
@@ -48,7 +46,7 @@ jobs:
       name: Sign app APK
       id: sign_app
       with:
-        releaseDir: android-mvn/target/
+        releaseDir: androidWrapper/app/build/outputs/apk/release/app-release-unsigned.apk
         signingKey: ${{ secrets.SIGNING_KEY }}
         keyAlias: ${{ secrets.SIGNING_ALIAS }}
         keyStorePassword: ${{ secrets.SIGNING_PASSWORD }}
