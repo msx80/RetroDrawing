@@ -55,6 +55,7 @@ android {
     defaultConfig {
         applicationId props.getProperty('omicron.pkg')
         minSdk 26
+		compileSdkVersion 26
         targetSdk 34
         versionCode minVersion
         versionName property('cartridge.version')
