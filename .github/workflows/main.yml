@@ -34,7 +34,7 @@ jobs:
     - name: Build android
       run: |
         cd androidWrapper
-        gradle -Pcartridge.artifactId=retrodrawing -Pcartridge.groupId=com.github.msx80.omicron -Pcartridge.version=$GITHUB_DDVER clean assembleRelease
+        gradle --stacktrace -Pcartridge.artifactId=retrodrawing -Pcartridge.groupId=com.github.msx80.omicron -Pcartridge.version=$GITHUB_DDVER clean assembleRelease
     - uses: actions/upload-artifact@v4
       with:
         name: Unsigned retrodrawing.apk
