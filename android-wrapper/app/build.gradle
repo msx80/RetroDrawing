@@ -35,20 +35,6 @@ dependencies {
 def props = new Properties()
 zipTree(configurations.toestract.singleFile).filter(e -> "omicron.properties".equals(e.getName())).getSingleFile().withInputStream { props.load(it) }
 
-def iconFile
-def iconFiles = zipTree(configurations.toestract.singleFile).filter(e -> "omicronIcon.png".equals(e.getName())).getFiles()
-file("src/main/res/drawable").mkdirs()
-if(iconFiles.size() == 1)
-{
-	iconFile = iconFiles.iterator().next()
-}
-else
-{
-	iconFile = file("default.png")
-}
-System.out.println(iconFile)
-java.nio.file.Files.copy(iconFile.toPath(), file("src/main/res/drawable/omicronicon.png").toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-
 android {
     namespace props.getProperty("omicron.pkg")
     compileSdk 34
@@ -87,28 +73,30 @@ android {
     }
 	sourceSets {
         main {
-            jniLibs.srcDirs = ['libs']
+            jniLibs.srcDirs = ['build/libs']
 			res.srcDirs += 'build/res'
         }
     }
 }
 
 
-task copyAndroidNatives() {
+task copyNativeLibs() {
+  doFirst {
     project.logger.lifecycle('Copying native files')
-    file("libs/armeabi/").mkdirs()
-    file("libs/armeabi-v7a/").mkdirs()
-    file("libs/arm64-v8a/").mkdirs()
-    file("libs/x86/").mkdirs()
-    file("libs/x86_64/").mkdirs()
+	// copy native files into build/lib, so they are properly cleaned by clean
+    file("build/libs/armeabi/").mkdirs()
+    file("build/libs/armeabi-v7a/").mkdirs()
+    file("build/libs/arm64-v8a/").mkdirs()
+    file("build/libs/x86/").mkdirs()
+    file("build/libs/x86_64/").mkdirs()
 
     configurations.getByName("natives").copy().files.each { jar ->
         def outputDir = null
-        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
-        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
-        if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
-        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
-        if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
+        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("build/libs/armeabi-v7a")
+        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("build/libs/armeabi")
+        if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("build/libs/arm64-v8a")
+        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("build/libs/x86")
+        if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("build/libs/x86_64")
         if (outputDir != null) {
             copy {
                 from zipTree(jar)
@@ -117,4 +105,21 @@ task copyAndroidNatives() {
             }
         }
     }
+	// extract the icon from the cartridge to use it as app icon
+	def iconFile
+	def iconFiles = zipTree(configurations.toestract.singleFile).filter(e -> "omicronIcon.png".equals(e.getName())).getFiles()
+	file("build/res/drawable").mkdirs()
+	if(iconFiles.size() == 1)
+	{
+		iconFile = iconFiles.iterator().next()
+	}
+	else
+	{
+		iconFile = file("default.png")
+	}
+	System.out.println(iconFile)
+	java.nio.file.Files.copy(iconFile.toPath(), file("build/res/drawable/omicronicon.png").toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+
+  }
 }
+preBuild.dependsOn copyNativeLibs
