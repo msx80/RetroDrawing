@@ -6,6 +6,7 @@ ext {
 	gdxControllersVersion = "2.2.3"
 	cartridgeDep = property('cartridge.groupId')+":"+property('cartridge.artifactId')+":"+property('cartridge.version')
 	minVersion = property('cartridge.version').tokenize('.')[-1].toInteger()
+	omicronVersion = "0.0.10"
 }
 
 project.logger.lifecycle('Cartridge dependency: '+cartridgeDep+' version: '+minVersion)
@@ -17,7 +18,7 @@ configurations {
 
 dependencies {
 
-	implementation "com.github.msx80.omicron:android-lib:0.0.9"
+	implementation "com.github.msx80.omicron:android-lib:$omicronVersion"
 	implementation cartridgeDep
 	toestract (cartridgeDep) { 
         transitive = false

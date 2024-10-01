@@ -22,7 +22,7 @@ jobs:
       uses: android-actions/setup-android@v3
     - name: Install packages        
       run: |
-        sdkmanager "build-tools;33.0.2" "platforms;android-26"        
+        sdkmanager "build-tools;33.0.2" "platforms;android-26" "platforms;android-34"
     - name: Build app
       run: |
         cd retrodrawing
