@@ -25,6 +25,7 @@
         </activity>
 		<activity
             android:name="com.github.msx80.omicron.CrashActivity"
+			android:exported="false"
             android:label="Crash report" >
 		</activity>		
     </application>
