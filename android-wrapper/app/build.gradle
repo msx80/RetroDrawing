@@ -18,7 +18,10 @@ configurations {
 
 dependencies {
 
-	implementation "com.github.msx80.omicron:android-lib:$omicronVersion"
+	implementation ("com.github.msx80.omicron:android-lib:$omicronVersion") {
+	  exclude group: 'net.lingala.zip4j'
+      exclude module: 'zip4j'
+   }
 	implementation cartridgeDep
 	toestract (cartridgeDep) { 
         transitive = false
