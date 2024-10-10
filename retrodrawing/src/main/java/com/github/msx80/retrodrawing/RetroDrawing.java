@@ -148,7 +148,7 @@ public class RetroDrawing implements Game, Ctx {
 				tool.update(this, m);
 			}
 		}
-		else if (w == null && m.btn(0) && (!m.btnp(0)) )
+		else if (w == null && m.btnp(0) )
 		{
 			if(m.y()<20)
 			{
