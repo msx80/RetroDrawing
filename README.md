@@ -11,6 +11,12 @@ A simple drawing app with low resolution and a fixed palette.
 
 I use it to draw doddles with my kids :) We often play "guess the drawing" while waiting for food at restaurants. Here's some of our production:
 
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.github.msx80.retrodrawing/)
+
+Or download the latest APK from the [Releases Section](https://github.com/msx80/RetroDrawing/releases/latest).
+
 # Screenshots
 
 _Among-us battle:_
