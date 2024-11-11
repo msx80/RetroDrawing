@@ -5,13 +5,13 @@
 	<artifactId>retrodrawing</artifactId>
 	<groupId>com.github.msx80.omicron</groupId>
     <!-- NOTE: keep Major and Minor version at 0 because Incremental is used to derive versionCode for android -->	
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>8</maven.compiler.source>
 		<maven.compiler.target>8</maven.compiler.target>
-		<omicron.engine.version>0.0.10</omicron.engine.version>
+		<omicron.engine.version>0.0.11</omicron.engine.version>
 	</properties>
 	<repositories>
 		<repository>
