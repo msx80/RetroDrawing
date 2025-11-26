@@ -14,7 +14,7 @@ public class SurfUtils {
 
 	
 	// note: for some reason GZip streams are dead slow on android
-	public static final void bufferToSurfaceGZip(byte[] buffer, Sys sys, int surface, int sx, int sy, int w, int h)
+	public static final void bufferToSurfaceGZip(byte[] buffer, int surface, int sx, int sy, int w, int h)
 	{
 		try {
 			InputStream bais = new GZIPInputStream(new ByteArrayInputStream(buffer));
@@ -23,7 +23,7 @@ public class SurfUtils {
 					for (int x = sx; x < w; x++) {
 						int c = bais.read();
 						if(c==-1) throw new RuntimeException("End of stream reached prematurely");
-						sys.fill(surface, x, y, 1, 1, Palette.P[c]);
+						Sys.fill(surface, x, y, 1, 1, Palette.P[c]);
 					}
 				}
 			} finally {
@@ -34,7 +34,7 @@ public class SurfUtils {
 		}
 	}
 
-	public static final byte[] surfaceToBufferGZip(Sys sys, int surface, int sx, int sy, int w, int h)
+	public static final byte[] surfaceToBufferGZip(int surface, int sx, int sy, int w, int h)
 	{
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream(w*h*4);
@@ -44,7 +44,7 @@ public class SurfUtils {
 			
 					for (int y = sy; y < h; y++) {
 						for (int x = sx; x < w; x++) {
-							int c = sys.getPix(surface, x, y);
+							int c = Sys.getPix(surface, x, y);
 							int b = idx(c);
 							o.write(b);
 						}
@@ -61,7 +61,7 @@ public class SurfUtils {
 			throw new RuntimeException(e);
 		}
 	}
-	public static final void bufferToSurface(byte[] buffer, Sys sys, int surface, int sx, int sy, int w, int h)
+	public static final void bufferToSurface(byte[] buffer, int surface, int sx, int sy, int w, int h)
 	{
 		try {
 			InputStream bais = new ByteArrayInputStream(buffer);
@@ -70,7 +70,7 @@ public class SurfUtils {
 					for (int x = sx; x < w; x++) {
 						int c = bais.read();
 						if(c==-1) throw new RuntimeException("End of stream reached prematurely");
-						sys.fill(surface, x, y, 1, 1, Palette.P[c]);
+						Sys.fill(surface, x, y, 1, 1, Palette.P[c]);
 					}
 				}
 			} finally {
@@ -81,7 +81,7 @@ public class SurfUtils {
 		}
 	}
 
-	public static final byte[] surfaceToBuffer(Sys sys, int surface, int sx, int sy, int w, int h)
+	public static final byte[] surfaceToBuffer(int surface, int sx, int sy, int w, int h)
 	{
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream(w*h*4);
@@ -90,7 +90,7 @@ public class SurfUtils {
 			
 				for (int y = sy; y < h; y++) {
 					for (int x = sx; x < w; x++) {
-						int c = sys.getPix(surface, x, y);
+						int c = Sys.getPix(surface, x, y);
 						int b = idx(c);
 						baos.write(b);
 					}

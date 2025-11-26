@@ -12,7 +12,7 @@ public class Fill implements Tool {
 	boolean wasDown = false;
 	
 
-	private void fill(int origColor, int newColor, List<Pair<Integer, Integer>> z, Sys sys, int surface)
+	private void fill(int origColor, int newColor, List<Pair<Integer, Integer>> z, int surface)
 	{
 		while(true)
 		{
@@ -26,10 +26,10 @@ public class Fill implements Tool {
 			
 				if(x<0 || y<0 || x>=RetroDrawing.SURFWIDTH || y>= RetroDrawing.HEIGHT) continue;
 				
-				int c = sys.getPix(surface, x, y);
+				int c = Sys.getPix(surface, x, y);
 				if(c == origColor)
 				{
-					sys.fill(surface, x, y, 1, 1, newColor);
+					Sys.fill(surface, x, y, 1, 1, newColor);
 					newlist.add(Pair.of(x+1, y));
 					newlist.add(Pair.of(x-1, y));
 					newlist.add(Pair.of(x, y+1));
@@ -49,14 +49,14 @@ public class Fill implements Tool {
 			{
 				if(!wasDown)
 				{
-					int origColor = ctx.getSys().getPix(ctx.getSurface(), m.x(), m.y());
+					int origColor = Sys.getPix(ctx.getSurface(), m.x(), m.y());
 					int newColor = Palette.P[ctx.currentColor()];
 					if(newColor!=origColor)
 					{
 						ctx.recordUndo();
 						List<Pair<Integer, Integer>> a = new ArrayList<Pair<Integer,Integer>>();
 						a.add(Pair.of(m.x(),  m.y()));
-						fill(origColor, newColor, a, ctx.getSys(), ctx.getSurface());
+						fill(origColor, newColor, a, ctx.getSurface());
 					}
 				}
 			}

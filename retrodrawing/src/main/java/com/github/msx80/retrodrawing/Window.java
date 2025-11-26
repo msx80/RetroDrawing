@@ -1,13 +1,12 @@
 package com.github.msx80.retrodrawing;
 
 import com.github.msx80.omicron.api.Pointer;
-import com.github.msx80.omicron.api.Sys;
 
 public abstract class Window {
 	
 	boolean wasEverDown = false;
 	
-	public abstract void draw(Sys sys, int sheetNum);
+	public abstract void draw(int sheetNum);
 
 	public abstract boolean update(Pointer m);
 	

@@ -16,7 +16,6 @@ public class SlowFill implements Tool {
 	List<Pair<Integer, Integer>> z = null;
 	private int origColor;
 	private int newColor;
-	private Sys sys;
 	private int surface;
 	
 	public SlowFill() {
@@ -41,10 +40,10 @@ public class SlowFill implements Tool {
 			
 				if(x<0 || y<0 || x>=RetroDrawing.SURFWIDTH || y>= RetroDrawing.HEIGHT) continue;
 				
-				int c = sys.getPix(surface, x, y);
+				int c = Sys.getPix(surface, x, y);
 				if(c == origColor)
 				{
-					sys.fill(surface, x, y, 1, 1, newColor);
+					Sys.fill(surface, x, y, 1, 1, newColor);
 					newlist.add(Pair.of(x+1, y));
 					newlist.add(Pair.of(x-1, y));
 					newlist.add(Pair.of(x, y+1));
@@ -58,7 +57,6 @@ public class SlowFill implements Tool {
 
 	@Override
 	public void update(Ctx ctx, Pointer m) {
-		sys = ctx.getSys();
 		surface = ctx.getSurface();
 		if(z!=null)
 		{
@@ -72,7 +70,7 @@ public class SlowFill implements Tool {
 				if(!wasDown)
 				{
 					
-					origColor = sys.getPix( surface, m.x(), m.y());
+					origColor = Sys.getPix( surface, m.x(), m.y());
 					newColor = Palette.P[ctx.currentColor()];
 					if(newColor!=origColor)
 					{

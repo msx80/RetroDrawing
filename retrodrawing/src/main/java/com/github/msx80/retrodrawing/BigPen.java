@@ -11,11 +11,10 @@ public class BigPen extends Pen {
 
 	public void dotPen(Ctx ctx, int x, int y) 
 	{
-		Sys sys = ctx.getSys();
 		int surface = ctx.getSurface();
-		sys.fill(surface, x-4, y-4, 8,8, Palette.P[ctx.currentColor()]);
-		sys.fill(surface, x-5, y-3, 10,6, Palette.P[ctx.currentColor()]);
-		sys.fill(surface, x-3, y-5, 6,10, Palette.P[ctx.currentColor()]);
+		Sys.fill(surface, x-4, y-4, 8,8, Palette.P[ctx.currentColor()]);
+		Sys.fill(surface, x-5, y-3, 10,6, Palette.P[ctx.currentColor()]);
+		Sys.fill(surface, x-3, y-5, 6,10, Palette.P[ctx.currentColor()]);
 	}
 
 

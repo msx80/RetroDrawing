@@ -10,6 +10,7 @@ import com.github.msx80.omicron.api.SysConfig;
 import com.github.msx80.omicron.api.SysConfig.VirtualScreenMode;
 import com.github.msx80.omicron.basicutils.Colors;
 import com.github.msx80.omicron.basicutils.ShapeDrawer;
+import com.github.msx80.omicron.basicutils.SpriteSheet;
 import com.github.msx80.omicron.basicutils.text.TextDrawer;
 import com.github.msx80.omicron.basicutils.text.TextDrawerFixed;
 
@@ -20,8 +21,9 @@ public class RetroDrawing implements Game, Ctx {
 			new ToolItem(0, MediumPen.class),
 			new ToolItem(0, BigPen.class),
 			new ToolItem(0, SlowFill.class),
-			new ToolItem(0, CleanAll.class),
 			new ToolItem(0, Undo.class),
+			// new ToolItem(0, CleanAll.class),
+			
 			
 			
 	};
@@ -31,7 +33,9 @@ public class RetroDrawing implements Game, Ctx {
 	
 	public static final int SURFWIDTH = WIDTH-20;
 	
-	private Sys sys;
+	public static final int SURFACE_ICONS = 2;
+	public static final SpriteSheet icons = new SpriteSheet(16, 16, 8);
+	
 	int surface = 0;
 	int cur = 4;
 	Window w = null;
@@ -45,24 +49,23 @@ public class RetroDrawing implements Game, Ctx {
 	boolean showCursor;
 	
 	
-    public void init(final Sys sys) 
+    public void init() 
     {
-        this.sys = sys;
-        surface = sys.newSurface(SURFWIDTH, HEIGHT);
-        sys.fill(surface, 0,0,SURFWIDTH, HEIGHT, Palette.P[0]);
+        surface = Sys.newSurface(SURFWIDTH, HEIGHT);
+        Sys.fill(surface, 0,0,SURFWIDTH, HEIGHT, Palette.P[0]);
         
         tool = new MediumPen() ;
         
-        td = new TextDrawerFixed(sys, 1, 6, 6, 6);
+        
         
         try
         {
-	        String platform = (String) sys.hardware("com.github.msx80.omicron.plugins.builtin.PlatformPlugin", "PLATFORM", "");
-	        sys.trace("Platform: "+platform);
+	        String platform = (String) Sys.hardware("com.github.msx80.omicron.plugins.builtin.PlatformPlugin", "PLATFORM", "");
+	        Sys.trace("Platform: "+platform);
 	        showCursor = !platform.equals("ANDROID");
         }
         catch (Exception e) {
-			sys.trace("Error getting platform: "+e.getMessage());
+			Sys.trace("Error getting platform: "+e.getMessage());
 			showCursor = true;
 		}
 		
@@ -70,40 +73,46 @@ public class RetroDrawing implements Game, Ctx {
 
     public void render() 
     {
-    	sys.clear(Colors.WHITE);
-    	ShapeDrawer.outline(sys,SURFWIDTH, 0, WIDTH-SURFWIDTH, HEIGHT,0, Colors.from(30, 30, 50));
+    	Sys.clear(Colors.WHITE);
+    	ShapeDrawer.outline(SURFWIDTH, 0, WIDTH-SURFWIDTH, HEIGHT,0, Colors.from(30, 30, 50));
     	
     	
-    	sys.fill(0, SURFWIDTH+2, 2, 16, 16, Palette.P[cur]);
-    	ShapeDrawer.outline(sys,SURFWIDTH+2, 2, 16, 16,0, Colors.from(30, 30, 50));
+    	Sys.fill(0, SURFWIDTH+2, 2, 16, 16, Palette.P[cur]);
+    	
+    	ShapeDrawer.outline(SURFWIDTH+2, 2, 16, 16,0, Colors.from(30, 30, 50));
+    	
+    	// options
+    	Sys.color(Colors.from(255, 255, 255,100));
+    	Sys.draw(SURFACE_ICONS, SURFWIDTH+2, 122, 5*16, 0, 16,16,0,0);
     	
 		
     	for (int i = 0; i < tools.length; i++) {
 			ToolItem ti = tools[i];
 			if(ti.toolClass.isInstance(tool)) 
 	    	{
-	    		sys.color(Colors.WHITE);
+	    		Sys.color(Colors.WHITE);
 	    	}
 	    	else
 	    	{
-	    		sys.color(Colors.from(255, 255, 255,100));
+	    		Sys.color(Colors.from(255, 255, 255,100));
 	    	}
-	    	sys.draw(2, SURFWIDTH+2, 20*(i+1), i*16, 0, 16,16, 0,0);
+			
+	    	Sys.draw(SURFACE_ICONS, SURFWIDTH+2, 20*(i+1), i*16, 0, 16,16, 0,0);
 		}
     	
-    	sys.color(Colors.WHITE);
-    	sys.draw(surface, 0,0,0,0, SURFWIDTH, HEIGHT, 0, 0);
+    	Sys.color(Colors.WHITE);
+    	Sys.draw(surface, 0,0,0,0, SURFWIDTH, HEIGHT, 0, 0);
     	
-    	if(w!=null) w.draw(sys, 0);
+    	if(w!=null) w.draw(0);
     	
     	
-    	sys.color(Colors.BLACK);
+    	Sys.color(Colors.BLACK);
     	
     	// cursor
     	if(showCursor)
     	{
-	    	for (Pointer p : sys.pointers()) {
-	    		sys.fill(0,p.x(), p.y(), 3,3, Colors.RED);
+	    	for (Pointer p : Sys.pointers()) {
+	    		Sys.fill(0,p.x(), p.y(), 3,3, Colors.RED);
 	    	
 				
 			}
@@ -113,13 +122,13 @@ public class RetroDrawing implements Game, Ctx {
 
 	public boolean update() 
 	{
-		Pointer m = sys.pointers()[0];
+		Pointer m = Sys.pointers()[0];
 		if(tool!=null && tool.isBusy())
 		{
 			// tool is busy
 			if(m.btnp(0))
 			{
-				sys.trace("Hurry up");
+				Sys.trace("Hurry up");
 				tool.hurryUp();
 			}
 			tool.update(this, m);
@@ -153,6 +162,10 @@ public class RetroDrawing implements Game, Ctx {
 			if(m.y()<20)
 			{
 				w = new ColorWindow(i -> {cur = i; cooldownMouse = true;});
+			}
+			else if(m.y()>=120)
+			{
+					w = new OptionsWindow(this);
 			}
 			else
 			{
@@ -203,13 +216,8 @@ public class RetroDrawing implements Game, Ctx {
 	}
 
 	@Override
-	public Sys getSys() {
-		return sys;
-	}
-
-	@Override
 	public void recordUndo() {
-		byte[] buf = SurfUtils.surfaceToBuffer(sys, surface, 0, 0, SURFWIDTH, HEIGHT);
+		byte[] buf = SurfUtils.surfaceToBuffer(surface, 0, 0, SURFWIDTH, HEIGHT);
 		undos.push(buf);
 		if(undos.size()>10)
 			undos.remove(0);
@@ -221,7 +229,7 @@ public class RetroDrawing implements Game, Ctx {
 		if (!undos.isEmpty())
 		{
 			byte[] buf = undos.pop();
-			SurfUtils.bufferToSurface(buf, sys, surface, 0, 0, SURFWIDTH, HEIGHT);
+			SurfUtils.bufferToSurface(buf, surface, 0, 0, SURFWIDTH, HEIGHT);
 		}
 		
 	}

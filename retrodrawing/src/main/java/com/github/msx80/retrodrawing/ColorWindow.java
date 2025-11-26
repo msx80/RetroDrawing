@@ -22,14 +22,14 @@ public class ColorWindow extends Window {
 	
 	
 	
-	public void draw(Sys sys, int sheetNum)
+	public void draw(int sheetNum)
 	{
-		sys.fill(sheetNum, ax, ay, CELLSIZE*8+2, CELLSIZE*4+2, Colors.BLACK);
+		Sys.fill(sheetNum, ax, ay, CELLSIZE*8+2, CELLSIZE*4+2, Colors.BLACK);
 		for (int i = 0; i < Palette.P.length; i++) {
 			int x = (i % 8) * CELLSIZE;
 			int y = (i / 8) * CELLSIZE;
 			
-			sys.fill(sheetNum, ax+x+1, ay+y+1, CELLSIZE, CELLSIZE, Palette.P[i]);
+			Sys.fill(sheetNum, ax+x+1, ay+y+1, CELLSIZE, CELLSIZE, Palette.P[i]);
 		}
 	}
 

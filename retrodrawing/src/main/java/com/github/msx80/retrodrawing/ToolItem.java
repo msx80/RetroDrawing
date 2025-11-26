@@ -10,6 +10,4 @@ public class ToolItem {
 		this.toolClass = toolClass;
 	} 
 	
-	
-
 }
